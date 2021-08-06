@@ -11,5 +11,13 @@ module.exports = {
         changeOrigin: true
       }
     }
+  },
+  configureWebpack: {
+    resolve: {
+      alias: {
+        components: "@/components",
+        assets: "@/assets"
+      }
+    }
   }
 }
