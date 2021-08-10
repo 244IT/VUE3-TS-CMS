@@ -6,7 +6,7 @@ const chhRequest = new CHHRequest({
   baseURL: BASE_URL,
   interceptors: {
     requestInterceptor(config) {
-      console.log("请求拦截")
+      // console.log("请求拦截")
       // 携带token的拦截
       const token = ""
       if (token) {
@@ -19,7 +19,7 @@ const chhRequest = new CHHRequest({
       return err
     },
     responseInterceptor(config) {
-      console.log("响应拦截")
+      // console.log("响应拦截")
       return config
     },
     responseInterceptorCatch(err) {

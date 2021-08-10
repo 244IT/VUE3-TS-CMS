@@ -32,7 +32,7 @@ class CHHRequest {
     // 全局的拦截器
     this.instance.interceptors.request.use(
       (config) => {
-        console.log("全局请求拦截器")
+        // console.log("全局请求拦截器")
         if (this.showLoading) {
           this.loading = ElLoading.service({
             lock: true,
@@ -43,14 +43,14 @@ class CHHRequest {
         return config
       },
       (err) => {
-        console.log("全局请求错误拦截器")
+        // console.log("全局请求错误拦截器")
         return err
       }
     )
 
     this.instance.interceptors.response.use(
       (res) => {
-        console.log("全局响应拦截器")
+        // console.log("全局响应拦截器")
 
         // 将loading移除
         this.loading?.close()
@@ -63,7 +63,7 @@ class CHHRequest {
         return res
       },
       (err) => {
-        console.log("全局响应错误拦截器")
+        // console.log("全局响应错误拦截器")
         // 将loading移除
         this.loading?.close()
 
@@ -102,7 +102,6 @@ class CHHRequest {
           this.showLoading = DEAFULT_LOADING
 
           // 3.将结果resolve返回出去
-          console.log(data)
           resolve(data)
         })
         .catch((err) => {
@@ -112,6 +111,22 @@ class CHHRequest {
           return err
         })
     })
+  }
+
+  get<T>(config: CHHRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: "GET" })
+  }
+
+  post<T>(config: CHHRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: "POST" })
+  }
+
+  delete<T>(config: CHHRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: "DELETE" })
+  }
+
+  patch<T>(config: CHHRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: "PATCH" })
   }
 }
 

@@ -14,14 +14,14 @@ import "element-plus/lib/theme-chalk/base.css"
 
 const components = [
   ElButton,
+  ElCheckbox,
   ElForm,
   ElFormItem,
   ElInput,
+  ElLink,
   ElRadio,
-  ElTabs,
   ElTabPane,
-  ElCheckbox,
-  ElLink
+  ElTabs
 ]
 
 export default function (app: App): void {
