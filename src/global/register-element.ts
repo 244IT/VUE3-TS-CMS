@@ -1,12 +1,20 @@
 import { App } from "vue"
 import {
+  ElAside,
   ElButton,
   ElCheckbox,
+  ElContainer,
   ElForm,
   ElFormItem,
+  ElHeader,
   ElInput,
   ElLink,
+  ElMain,
+  ElMenu,
+  ElMenuItem,
+  ElMenuItemGroup,
   ElRadio,
+  ElSubmenu,
   ElTabPane,
   ElTabs
 } from "element-plus"
@@ -21,7 +29,15 @@ const components = [
   ElLink,
   ElRadio,
   ElTabPane,
-  ElTabs
+  ElTabs,
+  ElContainer,
+  ElHeader,
+  ElAside,
+  ElMain,
+  ElMenu,
+  ElSubmenu,
+  ElMenuItem,
+  ElMenuItemGroup
 ]
 
 export default function (app: App): void {
