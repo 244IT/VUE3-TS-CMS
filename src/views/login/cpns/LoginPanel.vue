@@ -23,7 +23,7 @@
       <el-link type="primary">忘记密码</el-link>
     </div>
 
-    <el-button type="primary" class="login-btn" @click="handleLoginClick"
+    <el-button type="primary" class="login-btn" @click="onLogin"
       >立即登录</el-button
     >
   </div>
@@ -34,6 +34,8 @@ import { defineComponent, ref } from "vue"
 import LoginAccount from "./LoginAccount.vue"
 import LoginPhone from "./LoginPhone.vue"
 
+import localCache from "@/utils/cache"
+
 export default defineComponent({
   components: {
     LoginAccount,
@@ -41,8 +43,24 @@ export default defineComponent({
   },
   setup() {
     const currentTab = ref("account")
+    const isKeepPassword = ref(!!localCache.getCache("password"))
+    const accountRef = ref<InstanceType<typeof LoginAccount>>()
+    const phoneRef = ref<InstanceType<typeof LoginPhone>>()
+
+    /* 点击登陆 */
+    const onLogin = () => {
+      if (currentTab.value === "account") {
+        accountRef.value?.loginAction(isKeepPassword.value)
+      } else {
+        console.log("手机登陆")
+      }
+    }
     return {
-      currentTab
+      currentTab,
+      onLogin,
+      accountRef,
+      phoneRef,
+      isKeepPassword
     }
   }
 })
