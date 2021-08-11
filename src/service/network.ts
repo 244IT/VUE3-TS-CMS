@@ -59,8 +59,9 @@ class CHHRequest {
         // 不同的后端定义的具体状态码显示不同的错误信息
         if (data.returnCode === "-1001") {
           console.log("请求失败~, 错误信息")
+        } else {
+          return data
         }
-        return res
       },
       (err) => {
         // console.log("全局响应错误拦截器")
@@ -77,10 +78,8 @@ class CHHRequest {
   }
 
   // 实例请求方法
-  request<T>(config: CHHRequestConfig): Promise<T> {
+  request<T>(config: CHHRequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
-      let data: Promise<T>
-
       if (config.interceptors?.requestInterceptor) {
         config = config.interceptors.requestInterceptor(config)
       }
@@ -91,18 +90,18 @@ class CHHRequest {
       }
 
       this.instance
-        .request<T>(config)
+        .request<any, T>(config)
         .then((res) => {
           // 对单个请求的拦截处理
           if (config.interceptors?.responseInterceptor) {
-            data = config.interceptors.responseInterceptor(res).data
+            res = config.interceptors.responseInterceptor(res)
           }
 
           // 2.将showLoading设置true, 这样不会影响下一个请求
           this.showLoading = DEAFULT_LOADING
 
           // 3.将结果resolve返回出去
-          resolve(data)
+          resolve(res)
         })
         .catch((err) => {
           // 将showLoading设置true, 这样不会影响下一个请求
@@ -113,19 +112,19 @@ class CHHRequest {
     })
   }
 
-  get<T>(config: CHHRequestConfig): Promise<T> {
+  get<T>(config: CHHRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "GET" })
   }
 
-  post<T>(config: CHHRequestConfig): Promise<T> {
+  post<T>(config: CHHRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "POST" })
   }
 
-  delete<T>(config: CHHRequestConfig): Promise<T> {
+  delete<T>(config: CHHRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "DELETE" })
   }
 
-  patch<T>(config: CHHRequestConfig): Promise<T> {
+  patch<T>(config: CHHRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "PATCH" })
   }
 }

@@ -1,5 +1,6 @@
 import CHHRequest from "./network"
 import { BASE_URL, TIME_OUT } from "./config"
+import localCache from "@/utils/cache"
 
 const chhRequest = new CHHRequest({
   timeout: TIME_OUT,
@@ -8,7 +9,7 @@ const chhRequest = new CHHRequest({
     requestInterceptor(config) {
       // console.log("请求拦截")
       // 携带token的拦截
-      const token = ""
+      const token = localCache.getCache("token")
       if (token) {
         config.headers.Authorization = `Bearer ${token}`
       }
