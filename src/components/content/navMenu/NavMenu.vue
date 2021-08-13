@@ -8,6 +8,7 @@
     <el-menu
       default-active="39"
       class="el-menu-vertical"
+      :collapse="collapse"
       @open="handleOpen"
       @close="handleClose"
     >
@@ -50,19 +51,25 @@ import { useRouter } from "vue-router"
 
 import { useStore } from "@/store"
 export default defineComponent({
+  props: {
+    collapse: {
+      type: Boolean,
+      default: false
+    }
+  },
   setup() {
     const store = useStore()
-    const router = useRouter()
+    // const router = useRouter()
     const userMenus = computed(() => store.state.loginModule.userMenus)
     console.log(userMenus)
-    const onMenuItem = (item: any) => {
-      // router.push({
-      //   path: item.url ?? "/not-found"
-      // })
-    }
+    // const onMenuItem = (item: any) => {
+    //   router.push({
+    //     path: item.url ?? "/not-found"
+    //   })
+    // }
     return {
-      userMenus,
-      onMenuItem
+      userMenus
+      // onMenuItem
     }
   }
 })
@@ -95,6 +102,7 @@ export default defineComponent({
 
   .el-menu {
     border-right: none;
+    background-color: #0c2135;
   }
 
   // 目录
@@ -105,12 +113,19 @@ export default defineComponent({
       padding-left: 50px !important;
       background-color: #0c2135 !important;
     }
+    .el-submenu__title span {
+      color: #fff;
+    }
   }
 
   ::v-deep .el-submenu__title {
     background-color: #001529 !important;
   }
-
+  .el-menu-item {
+    span {
+      color: #fff;
+    }
+  }
   // hover 高亮
   .el-menu-item:hover {
     color: #fff !important; // 菜单
@@ -121,7 +136,15 @@ export default defineComponent({
     background-color: #0a60bd !important;
   }
 }
-
+.el-menu {
+  .el-menu-item {
+    background-color: #0c2135;
+    color: #fff;
+  }
+  .el-menu-item.is-active {
+    color: var(--el-color-primary);
+  }
+}
 .el-menu-vertical:not(.el-menu--collapse) {
   width: 100%;
   height: calc(100% - 48px);

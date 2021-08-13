@@ -2,8 +2,8 @@
   <div class="nav-header">
     <i
       class="fold-menu"
-      :class="isFold ? 'el-icon-s-fold' : 'el-icon-s-unfold'"
-      @click="handleFoldClick"
+      :class="isFold ? 'el-icon-s-unfold' : 'el-icon-s-fold'"
+      @click="onFold"
     ></i>
     <div class="content">
       <div>面包屑</div>
@@ -13,11 +13,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent, ref } from "vue"
 
 export default defineComponent({
-  setup() {
-    return {}
+  emits: ["onFold"],
+  setup(prop, { emit }) {
+    const isFold = ref(false)
+    const onFold = () => {
+      isFold.value = !isFold.value
+      emit("onFold", isFold.value)
+    }
+    return {
+      onFold,
+      isFold
+    }
   }
 })
 </script>
