@@ -1,9 +1,16 @@
 import { App } from "vue"
 import {
   ElAside,
+  ElAvatar,
+  ElBreadcrumb,
+  ElBreadcrumbItem,
   ElButton,
   ElCheckbox,
   ElContainer,
+  ElDatePicker,
+  ElDropdown,
+  ElDropdownItem,
+  ElDropdownMenu,
   ElForm,
   ElFormItem,
   ElHeader,
@@ -13,7 +20,11 @@ import {
   ElMenu,
   ElMenuItem,
   ElMenuItemGroup,
+  ElOption,
   ElRadio,
+  ElRow,
+  ElCol,
+  ElSelect,
   ElSubmenu,
   ElTabPane,
   ElTabs
@@ -37,7 +48,18 @@ const components = [
   ElMenu,
   ElSubmenu,
   ElMenuItem,
-  ElMenuItemGroup
+  ElMenuItemGroup,
+  ElDropdown,
+  ElDropdownItem,
+  ElDropdownMenu,
+  ElAvatar,
+  ElBreadcrumb,
+  ElBreadcrumbItem,
+  ElDatePicker,
+  ElSelect,
+  ElOption,
+  ElRow,
+  ElCol
 ]
 
 export default function (app: App): void {

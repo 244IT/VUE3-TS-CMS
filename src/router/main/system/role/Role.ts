@@ -1,7 +1,7 @@
-const Role = () => import('@/views/main/cpgs/system/role/Role.vue')
+const Role = () => import("@/views/main/cpgs/system/role/Role.vue")
 export default {
-  path: '/main/cpgs/system/role',
-  name: 'Role',
+  path: "/main/system/role",
+  name: "Role",
   component: Role,
   children: []
 }

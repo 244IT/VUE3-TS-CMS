@@ -8,6 +8,7 @@ import {
 } from "../../service/login"
 
 import localCache from "@/utils/cache"
+import { mapMenusToRoutes } from "@/utils/mapMenus"
 import { ILoginState } from "./types"
 import { IRootState } from "../types"
 
@@ -30,6 +31,11 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     saveUserMenu(state, userMenus: any) {
       state.userMenus = userMenus
+      const routes = mapMenusToRoutes(userMenus)
+      console.log(routes)
+      routes.forEach((route) => {
+        router.addRoute("main", route)
+      })
     }
   },
   actions: {

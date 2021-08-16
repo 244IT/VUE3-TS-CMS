@@ -59,17 +59,18 @@ export default defineComponent({
   },
   setup() {
     const store = useStore()
-    // const router = useRouter()
+    const router = useRouter()
     const userMenus = computed(() => store.state.loginModule.userMenus)
     console.log(userMenus)
-    // const onMenuItem = (item: any) => {
-    //   router.push({
-    //     path: item.url ?? "/not-found"
-    //   })
-    // }
+    const onMenuItem = (item: any) => {
+      console.log("onMenuItem", item)
+      router.push({
+        path: item.url ?? "/not-found"
+      })
+    }
     return {
-      userMenus
-      // onMenuItem
+      userMenus,
+      onMenuItem
     }
   }
 })

@@ -7,14 +7,16 @@
       <el-header>
         <nav-header @onFold="onFold" />
       </el-header>
-      <el-main> MAIN </el-main>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script lang="ts">
-import NavHeader from "@/components/content/navHeader/NavHeader.vue"
-import NavMenu from "@/components/content/navMenu/NavMenu.vue"
+import NavHeader from "./cpns/navHeader"
+import NavMenu from "./cpns/navMenu"
 import { defineComponent, ref } from "vue"
 
 export default defineComponent({
