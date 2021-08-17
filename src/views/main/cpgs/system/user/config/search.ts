@@ -2,8 +2,8 @@ import { IForm } from "@/components/common/form"
 
 export const searchFormConfig: IForm = {
   labelWidth: "120px",
-  itemLayout: {
-    padding: "10px 40px"
+  itemStyle: {
+    padding: "10px 20px"
   },
   formItems: [
     {

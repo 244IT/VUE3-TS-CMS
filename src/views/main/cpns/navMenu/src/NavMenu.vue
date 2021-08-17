@@ -6,7 +6,7 @@
     </div>
 
     <el-menu
-      default-active="39"
+      :default-active="activeMenuIndex + ''"
       class="el-menu-vertical"
       :collapse="collapse"
       @open="handleOpen"
@@ -61,15 +61,19 @@ export default defineComponent({
     const store = useStore()
     const router = useRouter()
     const userMenus = computed(() => store.state.loginModule.userMenus)
-    console.log(userMenus)
+    const activeMenuIndex = computed(
+      () => store.state.loginModule.activeMenuIndex
+    )
     const onMenuItem = (item: any) => {
       console.log("onMenuItem", item)
+      store.commit("loginModule/saveActiveMenuIndex", item.id)
       router.push({
         path: item.url ?? "/not-found"
       })
     }
     return {
       userMenus,
+      activeMenuIndex,
       onMenuItem
     }
   }
