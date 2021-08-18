@@ -12,3 +12,8 @@ export interface CHHRequestConfig<T = AxiosResponse>
   interceptors?: CHHRequestInterceptors<T>
   showLoading?: boolean
 }
+
+export interface IDataType<T = any> {
+  code: number
+  data: T
+}

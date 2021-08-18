@@ -27,7 +27,9 @@ import {
   ElSelect,
   ElSubmenu,
   ElTabPane,
-  ElTabs
+  ElTabs,
+  ElTable,
+  ElTableColumn
 } from "element-plus"
 import "element-plus/lib/theme-chalk/base.css"
 
@@ -59,7 +61,9 @@ const components = [
   ElSelect,
   ElOption,
   ElRow,
-  ElCol
+  ElCol,
+  ElTable,
+  ElTableColumn
 ]
 
 export default function (app: App): void {

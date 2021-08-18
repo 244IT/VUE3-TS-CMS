@@ -1,4 +1,4 @@
-import Breadcrumb from "./src/Breadcrumb.vue"
+import Breadcrumb from "./src/ChhBreadcrumb.vue"
 
 export * from "./types"
 

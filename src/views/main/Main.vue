@@ -15,9 +15,10 @@
 </template>
 
 <script lang="ts">
+import { defineComponent, ref } from "vue"
+
 import NavHeader from "./cpns/navHeader"
 import NavMenu from "./cpns/navMenu"
-import { defineComponent, ref } from "vue"
 
 export default defineComponent({
   components: { NavMenu, NavHeader },
