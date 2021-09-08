@@ -45,8 +45,19 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.header {
-  /* color: red; */
+.page-search {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+}
+.user-search-item {
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
 }
 .handle-btns {
   text-align: right;

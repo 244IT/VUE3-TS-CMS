@@ -6,7 +6,7 @@
     </div>
 
     <el-menu
-      :default-active="activeMenuIndex + ''"
+      :default-active="activeMenu.id + ''"
       class="el-menu-vertical"
       :collapse="collapse"
       @open="handleOpen"
@@ -61,19 +61,18 @@ export default defineComponent({
     const store = useStore()
     const router = useRouter()
     const userMenus = computed(() => store.state.loginModule.userMenus)
-    const activeMenuIndex = computed(
-      () => store.state.loginModule.activeMenuIndex
-    )
+    const activeMenu = computed(() => store.state.loginModule.activeMenu)
     const onMenuItem = (item: any) => {
       console.log("onMenuItem", item)
-      store.commit("loginModule/saveActiveMenuIndex", item.id)
+      // 缓存点击的菜单
+      store.commit("loginModule/saveActiveMene", item)
       router.push({
         path: item.url ?? "/not-found"
       })
     }
     return {
       userMenus,
-      activeMenuIndex,
+      activeMenu,
       onMenuItem
     }
   }

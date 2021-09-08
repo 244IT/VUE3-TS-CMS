@@ -10,7 +10,6 @@ import { initStore } from "./store"
 import registerApp from "./global"
 
 const app = createApp(App)
-
 app.use(registerApp)
 app.use(store)
 app.use(initStore)

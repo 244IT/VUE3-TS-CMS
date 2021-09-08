@@ -19,7 +19,7 @@ const loginModule: Module<ILoginState, IRootState> = {
       token: "",
       userInfo: "",
       userMenus: "",
-      activeMenuIndex: ""
+      activeMenu: ""
     }
   },
   getters: {},
@@ -38,9 +38,9 @@ const loginModule: Module<ILoginState, IRootState> = {
         router.addRoute("main", route)
       })
     },
-    saveActiveMenuIndex(state, index: string) {
-      state.activeMenuIndex = index
-      localCache.setCache("activeMenuIndex", index)
+    saveActiveMene(state, menu: any) {
+      state.activeMenu = menu
+      localCache.setCache("activeMenu", menu)
     }
   },
   actions: {
@@ -61,13 +61,14 @@ const loginModule: Module<ILoginState, IRootState> = {
       const userMenus = await getUserMenuByRoleId(userInfo.role.id)
       commit("saveUserMenu", userMenus.data)
       localCache.setCache("userMenus", userMenus.data)
+
       // 获取默认激活的菜单id
-      const activeMenuIndex = firstMenu.id
-      commit("saveActiveMenuIndex", activeMenuIndex)
+      // const activeMenu = firstMenu
+      // commit("saveActiveMene", activeMenu)
       // 跳转到系统首页
       router.push("/main")
     },
-
+    /* 初始化数据 */
     initLoginData({ commit }) {
       console.log("initLoginData")
       const token = localCache.getCache("token")
@@ -82,10 +83,12 @@ const loginModule: Module<ILoginState, IRootState> = {
       if (userMenus) {
         commit("saveUserMenu", userMenus)
       }
-      const activeMenuIndex =
-        localCache.getCache("activeMenuIndex") ?? firstMenu.id
-      if (activeMenuIndex) {
-        commit("saveActiveMenuIndex", activeMenuIndex)
+      console.log("firstMenu")
+      console.log(firstMenu)
+      const activeMenu = localCache.getCache("activeMenu") ?? firstMenu
+
+      if (activeMenu) {
+        commit("saveActiveMene", activeMenu)
       }
     }
   }

@@ -29,7 +29,8 @@ import {
   ElTabPane,
   ElTabs,
   ElTable,
-  ElTableColumn
+  ElTableColumn,
+  ElPagination
 } from "element-plus"
 import "element-plus/lib/theme-chalk/base.css"
 
@@ -63,7 +64,8 @@ const components = [
   ElRow,
   ElCol,
   ElTable,
-  ElTableColumn
+  ElTableColumn,
+  ElPagination
 ]
 
 export default function (app: App): void {
