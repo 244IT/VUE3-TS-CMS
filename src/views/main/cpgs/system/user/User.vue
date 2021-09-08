@@ -1,19 +1,16 @@
 <template>
   <div class="user">
-    <div class="user-search">
-      <page-search :searchFormConfig="searchFormConfig" />
-      <page-table :searchListConfig="searchListConfig" />
-    </div>
+    <page-search :searchFormConfig="searchFormConfig" />
+    <page-content :searchListConfig="searchListConfig" pageName="user" />
   </div>
 </template>
 
 <script lang="ts">
 /* 通用 */
-import { computed, defineComponent, ref } from "vue"
-import { useStore } from "@/store"
+import { defineComponent } from "vue"
 /* 组件 */
 import PageSearch from "@/components/content/pageSearch"
-import PageTable from "@/components/content/pageTable"
+import PageContent from "@/components/content/pageContent"
 /* 配置 */
 import { searchFormConfig } from "./config/search"
 import { searchListConfig } from "./config/table"
@@ -21,22 +18,11 @@ export default defineComponent({
   name: "User",
   components: {
     PageSearch,
-    PageTable
+    PageContent
   },
   setup() {
-    const store = useStore()
-    /* 定义表单数据 */
-    const formData = ref({
-      id: "",
-      name: "",
-      password: "",
-      sport: "",
-      createTime: ""
-    })
-
     /* table配置 */
     return {
-      formData,
       searchFormConfig,
       searchListConfig
     }

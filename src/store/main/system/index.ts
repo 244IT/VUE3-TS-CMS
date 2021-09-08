@@ -1,41 +1,73 @@
 import { Module } from "vuex"
 
-import { getUserList } from "../../../service/main/system"
+import { getList } from "../../../service/main/system"
 
 import { ISystemState } from "./types"
 import { IRootState } from "../../types"
+
+const mapToUrl: any = {
+  user: "/users/list",
+  role: "/role/list"
+}
 
 const systemModule: Module<ISystemState, IRootState> = {
   namespaced: true,
   state() {
     return {
       userList: [],
-      userCount: 0
+      userCount: 0,
+      roleList: [],
+      roleCount: 0
     }
   },
-  getters: {},
+  getters: {
+    pageListData(state) {
+      return (pageName: string) => {
+        return (state as any)[`${pageName}List`]
+      }
+    }
+  },
   mutations: {
     saveUserList(state, userList) {
       state.userList = userList
     },
     saveUserCount(state, userCount) {
       state.userCount = userCount
+    },
+    saveRoleList(state, roleList) {
+      state.roleList = roleList
+    },
+    saveRoleCount(state, roleCount) {
+      state.roleCount = roleCount
     }
   },
   actions: {
     /* 获取列表 */
-    async getUserList({ commit }, payload: any) {
+    async getList({ commit }, payload: any) {
+      const { pageName, pageQuery } = payload
+      const url = mapToUrl[pageName]
       // 用户登陆
-      const result = await getUserList(payload)
-      console.log(result)
+      const result = await getList(pageQuery, url)
+
       const { list, totalCount } = result.data
-      console.log("getUserList")
-      console.log(list)
-      console.log(totalCount)
-      commit("saveUserList", list)
-      commit("saveUserCount", totalCount)
+
+      commit(`save${_firstToUpper(pageName)}List`, list)
+      commit(`save${_firstToUpper(pageName)}Count`, totalCount)
     }
   }
+}
+
+/* 首字母转大写 */
+const _firstToUpper = (text: string) => {
+  return text
+    .split("")
+    .map((item, index) => {
+      if (index === 0) {
+        return item.toLocaleUpperCase()
+      }
+      return item
+    })
+    .join("")
 }
 
 export default systemModule

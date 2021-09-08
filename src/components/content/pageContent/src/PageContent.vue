@@ -1,6 +1,6 @@
 <template>
   <div class="user-table">
-    <chh-table :listData="userList" v-bind="searchListConfig">
+    <chh-table :listData="list" v-bind="searchListConfig">
       <template #headerHandler>
         <el-button size="mini" type="primary">新建用户</el-button>
       </template>
@@ -13,7 +13,7 @@
         >
       </template>
       <template #createAt="scope">
-        <strong>{{ scope.row.createAt }}</strong>
+        <strong>{{ $filter.format(scope.row.createAt) }}</strong>
       </template>
       <template #handler>
         <div class="handle-btns">
@@ -43,19 +43,29 @@ export default defineComponent({
     searchListConfig: {
       type: Object,
       reuqired: true
+    },
+    pageName: {
+      type: String
     }
   },
   setup(props) {
     const store = useStore()
+    console.log("pageContent")
+    console.log(props.pageName)
     /* 发送请求，获取用户列表 */
-    store.dispatch("systemModule/getUserList", {
-      offset: 0,
-      size: 10
+    store.dispatch("systemModule/getList", {
+      pageQuery: {
+        offset: 0,
+        size: 10
+      },
+      pageName: props.pageName
     })
-    const userList = computed(() => store.state.systemModule.userList)
+    const list = computed(() =>
+      store.getters[`systemModule/pageListData`](props.pageName)
+    )
     // const userCount = computed(() => store.state.systemModule.userCount)
     return {
-      userList
+      list
     }
   }
 })
