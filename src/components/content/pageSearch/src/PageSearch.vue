@@ -1,12 +1,16 @@
 <template>
   <div class="page-search">
-    <chh-form v-bind="searchFormConfig" v-model="formData">
+    <chh-form
+      v-bind="searchFormConfig"
+      v-model="formData"
+      @update="onChangeValue"
+    >
       <template #header>
         <h2 class="header">高级检索</h2>
       </template>
       <template #footer>
         <div class="handle-btns">
-          <el-button icon="el-icon-refresh">重置</el-button>
+          <el-button icon="el-icon-refresh" @click="onReset">重置</el-button>
           <el-button type="primary" icon="el-icon-search">搜索</el-button>
         </div>
       </template>
@@ -28,17 +32,26 @@ export default defineComponent({
   components: {
     ChhForm
   },
-  setup() {
-    const formData = ref({
-      id: "",
-      name: "",
-      password: "",
-      sport: "",
-      createTime: ""
-    })
+  setup(props) {
+    /* 表单字段 */
+    const formItems = props.searchFormConfig?.formItems ?? []
+    console.log(formItems)
+    const originFormData: any = {}
+    for (let prop of formItems) {
+      originFormData[prop.field] = ""
+    }
+    const formData = ref(originFormData)
+
+    /* 点击重置 */
+    const onReset = () => {
+      for (let prop of Object.keys(originFormData)) {
+        formData.value[prop] = ""
+      }
+    }
 
     return {
-      formData
+      formData,
+      onReset
     }
   }
 })

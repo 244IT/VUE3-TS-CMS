@@ -21,9 +21,13 @@ const systemModule: Module<ISystemState, IRootState> = {
     }
   },
   getters: {
+    /* 获取列表数据 */
     pageListData(state) {
       return (pageName: string) => {
-        return (state as any)[`${pageName}List`]
+        return {
+          pageList: (state as any)[`${pageName}List`],
+          pageCount: (state as any)[`${pageName}Count`]
+        }
       }
     }
   },

@@ -1,4 +1,4 @@
-export const searchListConfig = {
+export const searchContentConfig = {
   title: "用户列表",
   propList: [
     { prop: "name", label: "用户名", minWidth: "100" },

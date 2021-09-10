@@ -1,5 +1,5 @@
-export const searchListConfig = {
-  title: "用户列表",
+export const searchContentConfig = {
+  title: "角色列表",
   propList: [
     { prop: "name", label: "角色名", minWidth: "100" },
     { prop: "intro", label: "权限介绍", minWidth: "100" },

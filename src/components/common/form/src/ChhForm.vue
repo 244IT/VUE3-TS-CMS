@@ -19,7 +19,8 @@
                   :placeholder="item.placeholder"
                   v-bind="item.otherOptions"
                   :show-password="item.type === 'password'"
-                  v-model="formData[`${item.field}`]"
+                  :model-value="modelValue[`${item.field}`]"
+                  @update:modelValue="onChangeValue($event, item.field)"
                 />
               </template>
               <template v-else-if="item.type === 'select'">
@@ -27,7 +28,8 @@
                   :placeholder="item.placeholder"
                   v-bind="item.otherOptions"
                   style="width: 100%"
-                  v-model="formData[`${item.field}`]"
+                  :model-value="modelValue[`${item.field}`]"
+                  @update:modelValue="onChangeValue($event, item.field)"
                 >
                   <el-option
                     v-for="option in item.options"
@@ -41,7 +43,8 @@
                 <el-date-picker
                   style="width: 100%"
                   v-bind="item.otherOptions"
-                  v-model="formData[`${item.field}`]"
+                  :model-value="modelValue[`${item.field}`]"
+                  @update:modelValue="onChangeValue($event, item.field)"
                 ></el-date-picker>
               </template>
             </el-form-item>
@@ -90,20 +93,27 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const formData = ref({ ...props.modelValue })
-    watch(
-      formData,
-      (newValue) => {
-        console.log(newValue)
-        emit("update:modelValue", newValue)
-      },
-      {
-        deep: true
-      }
-    )
+    // const formData = ref({ ...props.modelValue })
+    // /* 监听表单项的改变 */
+    // watch(
+    //   formData,
+    //   (newValue) => {
+    //     console.log(newValue)
+    //     emit("update:modelValue", newValue)
+    //   },
+    //   {
+    //     deep: true
+    //   }
+    // )
+    const onChangeValue = (value: any, field: string) => {
+      console.log("onchange")
+      console.log(props.modelValue, { [field]: value })
+      console.log({ ...props.modelValue, [field]: value })
+      emit("update:modelValue", { ...props.modelValue, [field]: value })
+    }
 
     return {
-      formData
+      onChangeValue
     }
   }
 })

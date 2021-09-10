@@ -1,6 +1,6 @@
 <template>
   <div class="role">
-    <page-content :searchListConfig="searchListConfig" pageName="role" />
+    <page-content :searchContentConfig="searchContentConfig" pageName="role" />
   </div>
 </template>
 
@@ -10,7 +10,7 @@ import { defineComponent } from "vue"
 /* 组件 */
 import pageContent from "@/components/content/pageContent"
 /* 配置 */
-import { searchListConfig } from "./config/content"
+import { searchContentConfig } from "./config/content"
 export default defineComponent({
   name: "Role",
   components: {
@@ -18,7 +18,7 @@ export default defineComponent({
   },
   setup() {
     return {
-      searchListConfig
+      searchContentConfig
     }
   }
 })
