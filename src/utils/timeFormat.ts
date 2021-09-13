@@ -8,5 +8,5 @@ export const formatUtcTime = (
   utcTime: string,
   format: string = TIME_FORMAT
 ) => {
-  return dayjs.utc(utcTime).format(format)
+  return dayjs.utc(utcTime).utcOffset(8).format(format)
 }

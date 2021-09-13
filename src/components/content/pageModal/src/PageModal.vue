@@ -51,7 +51,6 @@ export default defineComponent({
       () => props.defaultInfo,
       (newValue: any) => {
         for (const item of props.modalConfig?.formItems) {
-          console.log(item)
           formData.value[`${item.field}`] = newValue[`${item.field}`]
         }
       }
@@ -69,6 +68,8 @@ export default defineComponent({
           id: props.defaultInfo.id
         })
       } else {
+        console.log("createUser")
+        console.log(formData.value)
         store.dispatch("systemModule/createListItemAction", {
           pageName: props.pageName,
           newData: { ...formData.value }

@@ -3,7 +3,7 @@ import { IDataType } from "../../type"
 import { IUserListResult, IUserListItem, IList } from "./type"
 
 /* 获取列表 */
-export function getList(list: IList, url: string): any {
+export function getList(url: string, list: IList): any {
   return chhRequest.post<IDataType<IUserListResult<IUserListItem>>>({
     url,
     data: list

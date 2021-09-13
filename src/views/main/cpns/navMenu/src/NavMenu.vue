@@ -9,8 +9,6 @@
       :default-active="activeMenu.id + ''"
       class="el-menu-vertical"
       :collapse="collapse"
-      @open="handleOpen"
-      @close="handleClose"
     >
       <template v-for="item in userMenus" :key="item.id">
         <!-- 二级菜单 -->

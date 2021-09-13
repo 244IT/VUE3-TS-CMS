@@ -7,7 +7,7 @@
     />
     <page-content
       :searchContentConfig="searchContentConfig"
-      pageName="user"
+      pageName="users"
       ref="pageContentRef"
       @onCreate="onCreate"
       @onEdit="onEdit"
@@ -15,8 +15,8 @@
 
     <page-modal
       ref="pageModalRef"
-      pageName="user"
-      :modalConfig="modalConfig"
+      pageName="users"
+      :modalConfig="modalConfigRef"
       :defaultInfo="defaultInfo"
     ></page-modal>
   </div>
@@ -24,7 +24,8 @@
 
 <script lang="ts">
 /* 通用 */
-import { defineComponent } from "vue"
+import { computed, defineComponent } from "vue"
+import { useStore } from "@/store"
 /* 组件 */
 import PageSearch from "@/components/content/pageSearch"
 import PageContent from "@/components/content/pageContent"
@@ -64,11 +65,28 @@ export default defineComponent({
       createCallback,
       editCallback
     )
+    /* 初始化菜单和部门 */
+    const modalConfigRef = computed(() => {
+      const store = useStore()
+      const departmentItem = modalConfig.formItems?.find(
+        (item) => item.field === "departmentId"
+      )
+      const roleItem = modalConfig.formItems?.find(
+        (item) => item.field === "roleId"
+      )
+      departmentItem!.options = store.state.entireDepartment.map((item) => {
+        return { title: item.name, value: item.id }
+      })
+      roleItem!.options = store.state.entireRole.map((item) => {
+        return { title: item.name, value: item.id }
+      })
+      return modalConfig
+    })
 
     return {
       searchFormConfig,
       searchContentConfig,
-      modalConfig,
+      modalConfigRef,
       onReset,
       onSearch,
       pageContentRef,

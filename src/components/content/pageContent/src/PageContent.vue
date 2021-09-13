@@ -111,10 +111,13 @@ export default defineComponent({
     const onDelete = (item: any) => {
       console.log(item)
       console.log("ondelete")
-      store.dispatch(`${props.searchContentConfig?.module}/getListAction`, {
-        pageName: props.pageName,
-        id: item.id
-      })
+      store.dispatch(
+        `${props.searchContentConfig?.module}/deleteListItemAction`,
+        {
+          pageName: props.pageName,
+          id: item.id
+        }
+      )
     }
 
     /* 获取列表数据 */
@@ -146,7 +149,6 @@ export default defineComponent({
         return true
       }
     )
-    console.log(otherPropSlots)
     return {
       listData,
       getListData,

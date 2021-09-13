@@ -57,7 +57,6 @@ const loginModule: Module<ILoginState, IRootState> = {
     async accountLoginAction({ commit }, payload: any) {
       // 用户登陆
       const result = await accountLogin(payload)
-      console.log(result)
       const { id, token } = result.data
       commit("saveToken", token)
       localCache.setCache("token", token)
@@ -79,7 +78,6 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     /* 初始化数据 */
     initLoginData({ commit }) {
-      console.log("initLoginData")
       const token = localCache.getCache("token")
       if (token) {
         commit("saveToken", token)
@@ -92,8 +90,6 @@ const loginModule: Module<ILoginState, IRootState> = {
       if (userMenus) {
         commit("saveUserMenu", userMenus)
       }
-      console.log("firstMenu")
-      console.log(firstMenu)
       const activeMenu = localCache.getCache("activeMenu") ?? firstMenu
 
       if (activeMenu) {

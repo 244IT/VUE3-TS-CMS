@@ -42,8 +42,6 @@ export default defineComponent({
       const currentPath = route.path
       return pathMapBreadcrumbs(userMenus, currentPath)
     })
-    console.log("breadcrumbs")
-    console.log(breadcrumbs)
     return {
       onFold,
       isFold,

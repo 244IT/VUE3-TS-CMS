@@ -11,7 +11,7 @@ import { ISystemState } from "./types"
 import { IRootState } from "../../types"
 
 const mapToUrl: any = {
-  user: "/users/list",
+  users: "/users/list",
   role: "/role/list",
   good: "/goods/list",
   menu: "/menu/list"
@@ -21,8 +21,8 @@ const systemModule: Module<ISystemState, IRootState> = {
   namespaced: true,
   state() {
     return {
-      userList: [], // 用户列表
-      userCount: 0, // 用户数量
+      usersList: [], // 用户列表
+      usersCount: 0, // 用户数量
       roleList: [], // 角色列表
       roleCount: 0, // 角色数量
       goodList: [], // 商品列表
@@ -43,11 +43,11 @@ const systemModule: Module<ISystemState, IRootState> = {
     }
   },
   mutations: {
-    saveUserList(state, userList) {
-      state.userList = userList
+    saveUsersList(state, usersList) {
+      state.usersList = usersList
     },
-    saveUserCount(state, userCount) {
-      state.userCount = userCount
+    saveUsersCount(state, usersCount) {
+      state.usersCount = usersCount
     },
     saveRoleList(state, roleList) {
       state.roleList = roleList
@@ -74,7 +74,7 @@ const systemModule: Module<ISystemState, IRootState> = {
       const { pageName, pageQuery } = payload
       const url = mapToUrl[pageName]
       // 用户登陆
-      const result = await getList(pageQuery, url)
+      const result = await getList(url, pageQuery)
 
       const { list, totalCount } = result.data
 
@@ -84,13 +84,14 @@ const systemModule: Module<ISystemState, IRootState> = {
 
     /* 删除列表项 */
     async deleteListItemAction({ dispatch }, payload: any) {
+      console.log("deleteListItemAction")
       const { pageName, id } = payload
-      const url = mapToUrl[pageName]
+      console.log(id)
+      const url = `/${pageName}/${id}`
       // 删除请求
-      await deleteListItem(`${url}/${id}`)
-      console.log("deleteListItem")
+      await deleteListItem(url)
       // 重新获取列表
-      dispatch("getList", {
+      dispatch("getListAction", {
         pageName,
         pageQuery: {
           offset: 0,
@@ -102,11 +103,11 @@ const systemModule: Module<ISystemState, IRootState> = {
     /* 新增列表 */
     async createListItemAction({ dispatch }, payload: any) {
       const { pageName, newData } = payload
-      const url = mapToUrl[pageName]
+      const url = `/${pageName}`
       await createListItem(url, newData)
 
       // 重新获取列表
-      dispatch("getList", {
+      dispatch("getListAction", {
         pageName,
         pageQuery: {
           offset: 0,
@@ -118,11 +119,11 @@ const systemModule: Module<ISystemState, IRootState> = {
     /* 编辑列表 */
     async editListItemAction({ dispatch }, payload: any) {
       const { pageName, editData, id } = payload
-      const url = `${mapToUrl[pageName]}/${id}`
+      const url = `/${pageName}/${id}`
       await editListItem(url, editData)
 
       // 重新获取列表
-      dispatch("getList", {
+      dispatch("getListAction", {
         pageName,
         pageQuery: {
           offset: 0,
