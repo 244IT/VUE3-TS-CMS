@@ -1,6 +1,11 @@
 import { Module } from "vuex"
 
-import { getList } from "../../../service/main/system"
+import {
+  createListItem,
+  deleteListItem,
+  editListItem,
+  getList
+} from "../../../service/main/system"
 
 import { ISystemState } from "./types"
 import { IRootState } from "../../types"
@@ -65,7 +70,7 @@ const systemModule: Module<ISystemState, IRootState> = {
   },
   actions: {
     /* 获取列表 */
-    async getList({ commit }, payload: any) {
+    async getListAction({ commit }, payload: any) {
       const { pageName, pageQuery } = payload
       const url = mapToUrl[pageName]
       // 用户登陆
@@ -75,6 +80,55 @@ const systemModule: Module<ISystemState, IRootState> = {
 
       commit(`save${_firstToUpper(pageName)}List`, list)
       commit(`save${_firstToUpper(pageName)}Count`, totalCount)
+    },
+
+    /* 删除列表项 */
+    async deleteListItemAction({ dispatch }, payload: any) {
+      const { pageName, id } = payload
+      const url = mapToUrl[pageName]
+      // 删除请求
+      await deleteListItem(`${url}/${id}`)
+      console.log("deleteListItem")
+      // 重新获取列表
+      dispatch("getList", {
+        pageName,
+        pageQuery: {
+          offset: 0,
+          size: 10
+        }
+      })
+    },
+
+    /* 新增列表 */
+    async createListItemAction({ dispatch }, payload: any) {
+      const { pageName, newData } = payload
+      const url = mapToUrl[pageName]
+      await createListItem(url, newData)
+
+      // 重新获取列表
+      dispatch("getList", {
+        pageName,
+        pageQuery: {
+          offset: 0,
+          size: 10
+        }
+      })
+    },
+
+    /* 编辑列表 */
+    async editListItemAction({ dispatch }, payload: any) {
+      const { pageName, editData, id } = payload
+      const url = `${mapToUrl[pageName]}/${id}`
+      await editListItem(url, editData)
+
+      // 重新获取列表
+      dispatch("getList", {
+        pageName,
+        pageQuery: {
+          offset: 0,
+          size: 10
+        }
+      })
     }
   }
 }

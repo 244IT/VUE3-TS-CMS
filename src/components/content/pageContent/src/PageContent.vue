@@ -8,9 +8,9 @@
     >
       <!-- 固定插槽 -->
       <template #headerHandler>
-        <el-button v-if="isCreate" size="mini" type="primary">{{
-          searchContentConfig.title
-        }}</el-button>
+        <el-button v-if="isCreate" size="mini" type="primary" @click="onCreate"
+          >新建用户</el-button
+        >
       </template>
       <template #status="scope">
         <el-button
@@ -26,9 +26,14 @@
       <template #updateAt="scope">
         <strong>{{ $filter.format(scope.row.updateAt) }}</strong>
       </template>
-      <template #handler>
+      <template #handler="scope">
         <div class="handle-btns">
-          <el-button v-if="isUpdate" icon="el-icon-edit" size="mini" type="text"
+          <el-button
+            v-if="isUpdate"
+            icon="el-icon-edit"
+            size="mini"
+            type="text"
+            @click="onEdit(scope.row)"
             >编辑</el-button
           >
           <el-button
@@ -36,6 +41,7 @@
             icon="el-icon-delete"
             size="mini"
             type="text"
+            @click="onDelete(scope.row)"
             >删除</el-button
           >
         </div>
@@ -66,6 +72,7 @@ export default defineComponent({
   components: {
     ChhTable
   },
+  emits: ["onEdit", "onCreate"],
   props: {
     searchContentConfig: {
       type: Object,
@@ -76,13 +83,21 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  setup(props, { emit }) {
     const store = useStore()
     /* 获取权限 */
     const isCreate = usePermission(props.pageName, "create")
     const isQuery = usePermission(props.pageName, "query")
     const isDelete = usePermission(props.pageName, "delete")
     const isUpdate = usePermission(props.pageName, "update")
+
+    /* 新建/编辑用户 */
+    const onCreate = () => {
+      emit("onCreate")
+    }
+    const onEdit = (value: any) => {
+      emit("onEdit", value)
+    }
 
     /* 监听页数和当前页 */
     const pageInfo = ref({ currentPage: 0, pageSize: 10 })
@@ -92,10 +107,20 @@ export default defineComponent({
       getListData()
     })
 
+    /* 删除列表项 */
+    const onDelete = (item: any) => {
+      console.log(item)
+      console.log("ondelete")
+      store.dispatch(`${props.searchContentConfig?.module}/getListAction`, {
+        pageName: props.pageName,
+        id: item.id
+      })
+    }
+
     /* 获取列表数据 */
     const getListData = (queryInfo?: any) => {
       if (!isQuery) return
-      store.dispatch(`${props.searchContentConfig?.module}/getList`, {
+      store.dispatch(`${props.searchContentConfig?.module}/getListAction`, {
         pageQuery: {
           offset: pageInfo.value.currentPage * pageInfo.value.pageSize,
           size: pageInfo.value.pageSize,
@@ -129,7 +154,10 @@ export default defineComponent({
       otherPropSlots,
       isCreate,
       isUpdate,
-      isDelete
+      isDelete,
+      onDelete,
+      onEdit,
+      onCreate
     }
   }
 })

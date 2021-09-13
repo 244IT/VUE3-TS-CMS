@@ -1,10 +1,6 @@
 <template>
   <div class="page-search">
-    <chh-form
-      v-bind="searchFormConfig"
-      v-model="formData"
-      @update="onChangeValue"
-    >
+    <chh-form v-bind="searchFormConfig" v-model="formData">
       <template #header>
         <h2 class="header">高级检索</h2>
       </template>
@@ -38,7 +34,6 @@ export default defineComponent({
   setup(props, { emit }) {
     /* 表单字段 */
     const formItems = props.searchFormConfig?.formItems ?? []
-    console.log(formItems)
     const originFormData: any = {}
     for (let prop of formItems) {
       originFormData[prop.field] = ""
@@ -55,6 +50,15 @@ export default defineComponent({
 
     /* 点击搜索 */
     const onSearch = () => {
+      let isEmpty = true
+      for (let prop in formData.value) {
+        if (formData.value[prop] !== "") {
+          isEmpty = false
+        }
+      }
+      // 为空不搜索
+      if (isEmpty) return
+
       emit("onSearch", formData.value)
     }
 
