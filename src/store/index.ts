@@ -19,7 +19,7 @@ const store = createStore<IRootState>({
   }
 })
 
-export function initStore() {
+export function initStore(): void {
   store.dispatch("loginModule/initLoginData")
 }
 

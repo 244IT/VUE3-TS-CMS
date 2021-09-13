@@ -8,7 +8,11 @@ import {
 } from "../../service/login"
 
 import localCache from "@/utils/cache"
-import { mapMenusToRoutes, firstMenu } from "@/utils/mapMenus"
+import {
+  mapMenusToRoutes,
+  firstMenu,
+  mapMenuToPermissions
+} from "@/utils/mapMenus"
 import { ILoginState } from "./types"
 import { IRootState } from "../types"
 
@@ -19,7 +23,8 @@ const loginModule: Module<ILoginState, IRootState> = {
       token: "",
       userInfo: "",
       userMenus: "",
-      activeMenu: ""
+      activeMenu: "",
+      permissions: []
     }
   },
   getters: {},
@@ -32,8 +37,12 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     saveUserMenu(state, userMenus: any) {
       state.userMenus = userMenus
+      // 获取用户菜单
       const routes = mapMenusToRoutes(userMenus)
-      console.log(routes)
+      // 获取用户权限
+      const permissions = mapMenuToPermissions(userMenus)
+      state.permissions = permissions
+
       routes.forEach((route) => {
         router.addRoute("main", route)
       })

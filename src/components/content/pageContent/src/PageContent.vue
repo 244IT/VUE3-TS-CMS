@@ -1,8 +1,14 @@
 <template>
   <div class="user-table">
-    <chh-table :listData="listData.pageList" v-bind="searchContentConfig">
+    <chh-table
+      :listData="listData.pageList"
+      :listCount="listData.pageCount"
+      v-bind="searchContentConfig"
+      v-model:page="pageInfo"
+    >
+      <!-- 固定插槽 -->
       <template #headerHandler>
-        <el-button size="mini" type="primary">{{
+        <el-button v-if="isCreate" size="mini" type="primary">{{
           searchContentConfig.title
         }}</el-button>
       </template>
@@ -22,13 +28,27 @@
       </template>
       <template #handler>
         <div class="handle-btns">
-          <el-button icon="el-icon-edit" size="mini" type="text"
+          <el-button v-if="isUpdate" icon="el-icon-edit" size="mini" type="text"
             >编辑</el-button
           >
-          <el-button icon="el-icon-delete" size="mini" type="text"
+          <el-button
+            v-if="isDelete"
+            icon="el-icon-delete"
+            size="mini"
+            type="text"
             >删除</el-button
           >
         </div>
+      </template>
+      <!-- 跨组件插槽 -->
+      <template
+        v-for="item in otherPropSlots"
+        :key="item.prop"
+        #[item.slotName]="scope"
+      >
+        <template v-if="item.slotName">
+          <slot :name="item.slotName" :row="scope.row"></slot>
+        </template>
       </template>
       <!-- <template #footer></template> -->
     </chh-table>
@@ -36,10 +56,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue"
+import { defineComponent, computed, watch, ref } from "vue"
 import { useStore } from "@/store"
+/* 组件 */
 import ChhTable from "@/components/common/table"
-
+/* hooks */
+import usePermission from "@/hooks/usePermission"
 export default defineComponent({
   components: {
     ChhTable
@@ -50,27 +72,64 @@ export default defineComponent({
       reuqired: true
     },
     pageName: {
-      type: String
+      type: String,
+      required: true
     }
   },
   setup(props) {
-    console.log("page content setup-----------------")
     const store = useStore()
+    /* 获取权限 */
+    const isCreate = usePermission(props.pageName, "create")
+    const isQuery = usePermission(props.pageName, "query")
+    const isDelete = usePermission(props.pageName, "delete")
+    const isUpdate = usePermission(props.pageName, "update")
 
-    /* 发送请求，获取用户列表 */
-    store.dispatch("systemModule/getList", {
-      pageQuery: {
-        offset: 0,
-        size: 10
-      },
-      pageName: props.pageName
+    /* 监听页数和当前页 */
+    const pageInfo = ref({ currentPage: 0, pageSize: 10 })
+    watch(pageInfo, () => {
+      console.log("改变了")
+      console.log(pageInfo)
+      getListData()
     })
 
+    /* 获取列表数据 */
+    const getListData = (queryInfo?: any) => {
+      if (!isQuery) return
+      store.dispatch(`${props.searchContentConfig?.module}/getList`, {
+        pageQuery: {
+          offset: pageInfo.value.currentPage * pageInfo.value.pageSize,
+          size: pageInfo.value.pageSize,
+          ...queryInfo
+        },
+        pageName: props.pageName
+      })
+    }
+    getListData()
+    /* 获取初始化列表数据 */
     const listData = computed(() =>
-      store.getters[`systemModule/pageListData`](props.pageName)
+      store.getters[`${props.searchContentConfig?.module}/pageListData`](
+        props.pageName
+      )
     )
+    /* 其他插槽 */
+    const otherPropSlots = props.searchContentConfig?.propList.filter(
+      (item: any) => {
+        if (item.slotName === "status") return false
+        if (item.slotName === "createAt") return false
+        if (item.slotName === "updateAt") return false
+        if (item.slotName === "handler") return false
+        return true
+      }
+    )
+    console.log(otherPropSlots)
     return {
-      listData
+      listData,
+      getListData,
+      pageInfo,
+      otherPropSlots,
+      isCreate,
+      isUpdate,
+      isDelete
     }
   }
 })

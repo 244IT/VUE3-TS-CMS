@@ -7,17 +7,23 @@ import { IRootState } from "../../types"
 
 const mapToUrl: any = {
   user: "/users/list",
-  role: "/role/list"
+  role: "/role/list",
+  good: "/goods/list",
+  menu: "/menu/list"
 }
 
 const systemModule: Module<ISystemState, IRootState> = {
   namespaced: true,
   state() {
     return {
-      userList: [],
-      userCount: 0,
-      roleList: [],
-      roleCount: 0
+      userList: [], // 用户列表
+      userCount: 0, // 用户数量
+      roleList: [], // 角色列表
+      roleCount: 0, // 角色数量
+      goodList: [], // 商品列表
+      goodCount: 0, // 商品数量
+      menuList: [], // 菜单列表
+      menuCount: 0 // 菜单数量
     }
   },
   getters: {
@@ -43,6 +49,18 @@ const systemModule: Module<ISystemState, IRootState> = {
     },
     saveRoleCount(state, roleCount) {
       state.roleCount = roleCount
+    },
+    saveGoodList(state, goodList) {
+      state.goodList = goodList
+    },
+    saveGoodCount(state, goodCount) {
+      state.goodCount = goodCount
+    },
+    saveMenuList(state, menuList) {
+      state.menuList = menuList
+    },
+    saveMenuCount(state, menuCount) {
+      state.menuCount = menuCount
     }
   },
   actions: {

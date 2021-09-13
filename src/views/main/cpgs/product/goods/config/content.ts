@@ -1,11 +1,12 @@
 export const searchContentConfig = {
-  title: "用户列表",
+  title: "商品列表",
   module: "systemModule",
   propList: [
-    { prop: "name", label: "用户名", minWidth: "100" },
-    { prop: "realname", label: "真实姓名", minWidth: "100" },
-    { prop: "cellphone", label: "手机号码", minWidth: "100" },
-    { prop: "enable", label: "状态", minWidth: "100", slotName: "status" },
+    { prop: "name", label: "商品名称", minWidth: "80" },
+    { prop: "oldPrice", label: "原价格", minWidth: "80", slotName: "oldPrice" },
+    { prop: "newPrice", label: "现价格", minWidth: "80", slotName: "newPrice" },
+    { prop: "imgUrl", label: "商品图片", minWidth: "100", slotName: "image" },
+    { prop: "status", label: "状态", minWidth: "100", slotName: "status" },
     {
       prop: "createAt",
       label: "创建时间",

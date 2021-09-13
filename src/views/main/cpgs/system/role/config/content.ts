@@ -1,5 +1,6 @@
 export const searchContentConfig = {
   title: "角色列表",
+  module: "systemModule",
   propList: [
     { prop: "name", label: "角色名", minWidth: "100" },
     { prop: "intro", label: "权限介绍", minWidth: "100" },

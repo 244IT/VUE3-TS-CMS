@@ -11,7 +11,9 @@
       <template #footer>
         <div class="handle-btns">
           <el-button icon="el-icon-refresh" @click="onReset">重置</el-button>
-          <el-button type="primary" icon="el-icon-search">搜索</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="onSearch"
+            >搜索</el-button
+          >
         </div>
       </template>
     </chh-form>
@@ -23,6 +25,7 @@ import { defineComponent, ref } from "vue"
 import ChhForm from "@/components/common/form"
 
 export default defineComponent({
+  emits: ["onSearch", "onReset"],
   props: {
     searchFormConfig: {
       type: Object,
@@ -32,7 +35,7 @@ export default defineComponent({
   components: {
     ChhForm
   },
-  setup(props) {
+  setup(props, { emit }) {
     /* 表单字段 */
     const formItems = props.searchFormConfig?.formItems ?? []
     console.log(formItems)
@@ -47,11 +50,18 @@ export default defineComponent({
       for (let prop of Object.keys(originFormData)) {
         formData.value[prop] = ""
       }
+      emit("onReset")
+    }
+
+    /* 点击搜索 */
+    const onSearch = () => {
+      emit("onSearch", formData.value)
     }
 
     return {
       formData,
-      onReset
+      onReset,
+      onSearch
     }
   }
 })

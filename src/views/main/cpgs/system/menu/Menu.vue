@@ -1,16 +1,28 @@
 <template>
   <div class="menu">
-    <h2>menu</h2>
+    <page-content
+      :searchContentConfig="searchContentConfig"
+      pageName="menu"
+    ></page-content>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue"
+/* 组件 */
+import PageContent from "@/components/content/pageContent"
+/* 配置 */
+import { searchContentConfig } from "./config/content"
 
 export default defineComponent({
   name: "Menu",
+  components: {
+    PageContent
+  },
   setup() {
-    return {}
+    return {
+      searchContentConfig
+    }
   }
 })
 </script>

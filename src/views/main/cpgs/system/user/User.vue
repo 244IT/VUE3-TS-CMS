@@ -1,7 +1,15 @@
 <template>
   <div class="user">
-    <page-search :searchFormConfig="searchFormConfig" />
-    <page-content :searchContentConfig="searchContentConfig" pageName="user" />
+    <page-search
+      :searchFormConfig="searchFormConfig"
+      @onReset="onReset"
+      @onSearch="onSearch"
+    />
+    <page-content
+      :searchContentConfig="searchContentConfig"
+      pageName="user"
+      ref="pageContentRef"
+    />
   </div>
 </template>
 
@@ -12,8 +20,10 @@ import { defineComponent } from "vue"
 import PageSearch from "@/components/content/pageSearch"
 import PageContent from "@/components/content/pageContent"
 /* 配置 */
-import { searchFormConfig } from "./config/search"
+import { searchFormConfig } from "./config/form"
 import { searchContentConfig } from "./config/content"
+/* hooks */
+import usePageSearch from "@/hooks/usePageSearch"
 export default defineComponent({
   name: "User",
   components: {
@@ -21,10 +31,13 @@ export default defineComponent({
     PageContent
   },
   setup() {
-    /* table配置 */
+    const [pageContentRef, onReset, onSearch] = usePageSearch()
     return {
       searchFormConfig,
-      searchContentConfig
+      searchContentConfig,
+      onReset,
+      onSearch,
+      pageContentRef
     }
   }
 })

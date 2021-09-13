@@ -8,7 +8,12 @@
         </div>
       </slot>
     </div>
-    <el-table :data="listData" border style="width: 100%">
+    <el-table
+      :data="listData"
+      border
+      style="width: 100%"
+      v-bind="childrenProps"
+    >
       <el-table-column
         v-if="showSelectColumn"
         align="center"
@@ -23,7 +28,7 @@
         width="80"
       ></el-table-column>
       <template v-for="propItem in propList" :key="propItem.prop">
-        <el-table-column v-bind="propItem" align="center">
+        <el-table-column v-bind="propItem" show-overflow-tooltip align="center">
           <template #default="scope">
             <slot :name="propItem.slotName" :row="scope.row">
               {{ scope.row[propItem.prop] }}
@@ -32,15 +37,16 @@
         </el-table-column>
       </template>
     </el-table>
-    <div class="table-footer">
+    <div class="table-footer" v-if="showFooter">
       <slot name="footer">
         <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :page-sizes="[100, 200, 300, 400]"
-          :page-size="100"
+          @size-change="onSizeChange"
+          @current-change="onCurrentChange"
+          :current-page="page.currentPage + 1"
+          :page-sizes="[10, 20, 30, 40]"
+          :page-size="page.pageSize"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="400"
+          :total="listCount"
         >
         </el-pagination>
       </slot>
@@ -52,10 +58,19 @@
 import { defineComponent } from "vue"
 
 export default defineComponent({
+  emits: ["update:page"],
   props: {
     listData: {
       type: Array,
       required: true
+    },
+    listCount: {
+      type: Number,
+      default: 0
+    },
+    page: {
+      type: Object,
+      default: () => ({ pageSize: 10, currentPage: 0 })
     },
     propList: {
       type: Array,
@@ -72,10 +87,29 @@ export default defineComponent({
     title: {
       type: String,
       default: "标题"
+    },
+    childrenProps: {
+      type: Object,
+      default: () => ({})
+    },
+    showFooter: {
+      type: Boolean,
+      default: true
     }
   },
-  setup() {
-    return {}
+  setup(props, { emit }) {
+    /* 修改页面大小 */
+    const onSizeChange = (pageSize: number) => {
+      emit("update:page", { ...props.page, pageSize })
+    }
+    /* 切换当前页 */
+    const onCurrentChange = (currentPage: number) => {
+      emit("update:page", { ...props.page, currentPage: currentPage - 1 })
+    }
+    return {
+      onSizeChange,
+      onCurrentChange
+    }
   }
 })
 </script>
