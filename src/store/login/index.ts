@@ -54,12 +54,13 @@ const loginModule: Module<ILoginState, IRootState> = {
   },
   actions: {
     /* 登陆相关操作 */
-    async accountLoginAction({ commit }, payload: any) {
+    async accountLoginAction({ commit, dispatch }, payload: any) {
       // 用户登陆
       const result = await accountLogin(payload)
       const { id, token } = result.data
       commit("saveToken", token)
       localCache.setCache("token", token)
+      dispatch("getInitialDataAction", null, { root: true }) // 获取部门和角色列表
       // 获取用户信息
       const userInfoResult = await getUserInfoById(id)
       const userInfo = userInfoResult.data
@@ -77,10 +78,11 @@ const loginModule: Module<ILoginState, IRootState> = {
       router.push("/main")
     },
     /* 初始化数据 */
-    initLoginData({ commit }) {
+    initLoginData({ commit, dispatch }) {
       const token = localCache.getCache("token")
       if (token) {
         commit("saveToken", token)
+        dispatch("getInitialDataAction", null, { root: true }) // 获取部门和角色列表
       }
       const userInfo = localCache.getCache("userInfo")
       if (userInfo) {

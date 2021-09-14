@@ -1,5 +1,6 @@
 export const searchContentConfig = {
   title: "菜单列表",
+  createText: "新建菜单",
   module: "systemModule",
   propList: [
     { prop: "name", label: "菜单名称", minWidth: "100" },

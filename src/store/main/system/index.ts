@@ -13,7 +13,7 @@ import { IRootState } from "../../types"
 const mapToUrl: any = {
   users: "/users/list",
   role: "/role/list",
-  good: "/goods/list",
+  goods: "/goods/list",
   menu: "/menu/list"
 }
 
@@ -25,8 +25,8 @@ const systemModule: Module<ISystemState, IRootState> = {
       usersCount: 0, // 用户数量
       roleList: [], // 角色列表
       roleCount: 0, // 角色数量
-      goodList: [], // 商品列表
-      goodCount: 0, // 商品数量
+      goodsList: [], // 商品列表
+      goodsCount: 0, // 商品数量
       menuList: [], // 菜单列表
       menuCount: 0 // 菜单数量
     }
@@ -55,11 +55,11 @@ const systemModule: Module<ISystemState, IRootState> = {
     saveRoleCount(state, roleCount) {
       state.roleCount = roleCount
     },
-    saveGoodList(state, goodList) {
-      state.goodList = goodList
+    saveGoodsList(state, goodsList) {
+      state.goodsList = goodsList
     },
-    saveGoodCount(state, goodCount) {
-      state.goodCount = goodCount
+    saveGoodsCount(state, goodsCount) {
+      state.goodsCount = goodsCount
     },
     saveMenuList(state, menuList) {
       state.menuList = menuList
@@ -84,9 +84,7 @@ const systemModule: Module<ISystemState, IRootState> = {
 
     /* 删除列表项 */
     async deleteListItemAction({ dispatch }, payload: any) {
-      console.log("deleteListItemAction")
       const { pageName, id } = payload
-      console.log(id)
       const url = `/${pageName}/${id}`
       // 删除请求
       await deleteListItem(url)

@@ -30,8 +30,6 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-  console.log("beforeEach")
-  console.log(to)
   // 跳转到其他页面，校验token
   if (to.path !== "/login") {
     const token = localCache.getCache("token")

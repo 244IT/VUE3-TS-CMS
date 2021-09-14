@@ -8,8 +8,12 @@
     >
       <!-- 固定插槽 -->
       <template #headerHandler>
-        <el-button v-if="isCreate" size="mini" type="primary" @click="onCreate"
-          >新建用户</el-button
+        <el-button
+          v-if="isCreate"
+          size="mini"
+          type="primary"
+          @click="onCreate"
+          >{{ searchContentConfig.createText }}</el-button
         >
       </template>
       <template #status="scope">
@@ -66,6 +70,7 @@ import { defineComponent, computed, watch, ref } from "vue"
 import { useStore } from "@/store"
 /* 组件 */
 import ChhTable from "@/components/common/table"
+import { ElMessageBox } from "element-plus"
 /* hooks */
 import usePermission from "@/hooks/usePermission"
 export default defineComponent({
@@ -111,13 +116,17 @@ export default defineComponent({
     const onDelete = (item: any) => {
       console.log(item)
       console.log("ondelete")
-      store.dispatch(
-        `${props.searchContentConfig?.module}/deleteListItemAction`,
-        {
-          pageName: props.pageName,
-          id: item.id
-        }
-      )
+      ElMessageBox.confirm("确认删除？")
+        .then(() => {
+          store.dispatch(
+            `${props.searchContentConfig?.module}/deleteListItemAction`,
+            {
+              pageName: props.pageName,
+              id: item.id
+            }
+          )
+        })
+        .catch(() => ({}))
     }
 
     /* 获取列表数据 */

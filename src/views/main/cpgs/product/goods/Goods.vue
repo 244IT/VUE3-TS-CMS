@@ -1,6 +1,6 @@
 <template>
   <div class="goods">
-    <page-content :searchContentConfig="searchContentConfig" pageName="good">
+    <page-content :searchContentConfig="searchContentConfig" pageName="goods">
       <template #image="scope">
         <el-image
           style="width: 60px; height: 60px"

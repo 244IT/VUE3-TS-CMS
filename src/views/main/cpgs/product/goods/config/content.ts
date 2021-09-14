@@ -1,5 +1,6 @@
 export const searchContentConfig = {
   title: "商品列表",
+  createText: "新建商品",
   module: "systemModule",
   propList: [
     { prop: "name", label: "商品名称", minWidth: "80" },

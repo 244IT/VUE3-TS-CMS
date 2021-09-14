@@ -8,6 +8,7 @@
       center
     >
       <chh-form v-bind="modalConfig" v-model="formData"> </chh-form>
+      <slot></slot>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="showDialog = false">取 消</el-button>
@@ -38,6 +39,10 @@ export default defineComponent({
     defaultInfo: {
       typeof: Object,
       default: () => ({})
+    },
+    othreInfo: {
+      typeof: Object,
+      default: () => ({})
     }
   },
   components: {
@@ -64,15 +69,13 @@ export default defineComponent({
       if (Object.keys(props.defaultInfo).length) {
         store.dispatch("systemModule/editListItemAction", {
           pageName: props.pageName,
-          editData: { ...formData.value },
+          editData: { ...formData.value, ...props.othreInfo },
           id: props.defaultInfo.id
         })
       } else {
-        console.log("createUser")
-        console.log(formData.value)
         store.dispatch("systemModule/createListItemAction", {
           pageName: props.pageName,
-          newData: { ...formData.value }
+          newData: { ...formData.value, ...props.othreInfo }
         })
       }
     }

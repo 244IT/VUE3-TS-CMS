@@ -1,5 +1,6 @@
 export const searchContentConfig = {
   title: "用户列表",
+  createText: "新建用户",
   module: "systemModule",
   propList: [
     { prop: "name", label: "用户名", minWidth: "100" },

@@ -16,6 +16,8 @@ export default function usePageModel(
     createCB && createCB()
   }
   const onEdit = (value: any) => {
+    console.log("hooks onedit")
+    console.log(value)
     defaultInfo.value = value
     if (pageModalRef.value) {
       pageModalRef.value.showDialog = true

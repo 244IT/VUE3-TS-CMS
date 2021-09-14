@@ -19,7 +19,7 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   // userMenus:
   // type === 1 -> children -> type === 1
   // type === 2 -> url -> route
-  const _recurseGetRoute = (menus: any[]) => {
+  const _recurseGetRoute = (menus: any[]): void => {
     for (const menu of menus) {
       if (menu.type === 2) {
         const route = allRoutes.find((route) => route.path === menu.url)
@@ -38,7 +38,10 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   return routes
 }
 
-export function pathMapBreadcrumbs(userMenus: any[], currentPath: string) {
+export function pathMapBreadcrumbs(
+  userMenus: any[],
+  currentPath: string
+): IBreadcrumb[] {
   const breadcrumbs: IBreadcrumb[] = []
   pathMapToMenu(userMenus, currentPath, breadcrumbs)
   return breadcrumbs
@@ -64,7 +67,7 @@ export function pathMapToMenu(
   }
 }
 
-export function mapMenuToPermissions(userMenus: any[]) {
+export function mapMenuToPermissions(userMenus: any[]): string[] {
   const permissions: string[] = []
   const _recurseGetPermission = (menus: any[]) => {
     for (const menu of menus) {

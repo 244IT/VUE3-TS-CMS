@@ -11,7 +11,7 @@
       </span>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item icon="el-icon-circle-close"
+          <el-dropdown-item icon="el-icon-circle-close" @click="onLoginOut"
             >退出登录</el-dropdown-item
           >
           <el-dropdown-item divided>用户信息</el-dropdown-item>
@@ -24,15 +24,22 @@
 
 <script lang="ts">
 import { defineComponent, computed } from "vue"
+import router from "@/router"
 import { useStore } from "@/store"
-
+import localCache from "@/utils/cache"
 export default defineComponent({
   setup() {
     const store = useStore()
     const name = computed(() => store.state.loginModule.userInfo.name)
+    /* 退出登陆 */
+    const onLoginOut = () => {
+      localCache.deleteCache("token")
+      router.push("/main")
+    }
 
     return {
-      name
+      name,
+      onLoginOut
     }
   }
 })

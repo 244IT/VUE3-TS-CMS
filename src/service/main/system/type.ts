@@ -15,6 +15,6 @@ export interface IUserListItem {
 }
 
 export interface IList {
-  offset: number
-  size: number
+  offset?: number
+  size?: number
 }
