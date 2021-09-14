@@ -4,7 +4,7 @@ import { AxiosInstance } from "axios"
 import { ElLoading } from "element-plus"
 import { ILoadingInstance } from "element-plus/lib/el-loading/src/loading.type"
 
-import { CHHRequestConfig } from "./type"
+import { CHHRequestConfig } from "./types"
 
 const DEAFULT_LOADING = true
 

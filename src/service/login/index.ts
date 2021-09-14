@@ -1,7 +1,7 @@
 import { chhRequest } from "../index"
 
-import { IAccount, ILoginResult } from "./type"
-import { IDataType } from "../type"
+import { IAccount, ILoginResult } from "./types"
+import { IDataType } from "../types"
 
 enum LoginAPI {
   AccountLogin = "/login",

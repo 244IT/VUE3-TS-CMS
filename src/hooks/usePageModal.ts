@@ -1,11 +1,11 @@
 import { ref } from "vue"
 import PageModal from "@/components/content/pageModal"
 
-type CallbackFn = () => void
+type CallbackFn = (value?: any) => void
 export default function usePageModel(
   createCB?: CallbackFn,
   editCB?: CallbackFn
-) {
+): any[] {
   const pageModalRef = ref<InstanceType<typeof PageModal>>()
   const defaultInfo = ref<any>({})
   const onCreate = () => {
@@ -16,13 +16,11 @@ export default function usePageModel(
     createCB && createCB()
   }
   const onEdit = (value: any) => {
-    console.log("hooks onedit")
-    console.log(value)
     defaultInfo.value = value
     if (pageModalRef.value) {
       pageModalRef.value.showDialog = true
     }
-    editCB && editCB()
+    editCB && editCB(value)
   }
   return [pageModalRef, defaultInfo, onCreate, onEdit]
 }

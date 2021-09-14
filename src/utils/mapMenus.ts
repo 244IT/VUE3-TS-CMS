@@ -82,4 +82,21 @@ export function mapMenuToPermissions(userMenus: any[]): string[] {
   return permissions
 }
 
+export function mapMenuToLeftKeys(menuList: any[]): number[] {
+  const leftKeys: number[] = []
+  console.log("mapMenuToLeftKeys")
+  console.log(menuList)
+  const _recurseGetLeftKey = (menus: any[]): void => {
+    for (const menu of menus) {
+      if (menu.children) {
+        _recurseGetLeftKey(menu.children)
+      } else {
+        leftKeys.push(menu.id)
+      }
+    }
+  }
+  _recurseGetLeftKey(menuList)
+  return leftKeys
+}
+
 export { firstMenu }

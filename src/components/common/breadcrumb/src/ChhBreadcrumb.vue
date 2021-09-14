@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-breadcrumb">
+  <div class="chh-breadcrumb">
     <el-breadcrumb>
       <template v-for="item in breadcrumbs" :key="item.name">
         <el-breadcrumb-item>{{ item.name }} </el-breadcrumb-item>

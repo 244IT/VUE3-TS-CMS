@@ -1,6 +1,6 @@
 import { ILoginState } from "./login/types"
-import { IProductState } from "./main/product/types"
 import { ISystemState } from "./main/system/types"
+import { IDashboardState } from "./main/analysis/types"
 
 export interface IRootState {
   name: string
@@ -13,7 +13,7 @@ export interface IRootState {
 export interface IRootWithModule {
   loginModule: ILoginState
   systemModule: ISystemState
-  productModule: IProductState
+  dashboardModule: IDashboardState
 }
 
 export type IStoreType = IRootState & IRootWithModule

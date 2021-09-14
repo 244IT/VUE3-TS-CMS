@@ -7,17 +7,18 @@
       @onEdit="onEdit"
     />
     <page-modal
+      ref="pageModalRef"
+      pageName="role"
       :modalConfig="modalConfig"
       :othreInfo="othreInfo"
       :defaultInfo="defaultInfo"
-      ref="pageModalRef"
-      pageName="role"
     >
       <div class="role-tree">
         <el-tree
-          :data="entireMenu"
+          ref="elTreeRef"
           show-checkbox
           node-key="id"
+          :data="entireMenu"
           :props="{ children: 'children', label: 'name' }"
           @check="onCheckMenu"
         >
@@ -29,9 +30,10 @@
 
 <script lang="ts">
 /* 通用 */
-import { computed, defineComponent, ref } from "vue"
+import { computed, defineComponent, ref, nextTick } from "vue"
 import { useStore } from "vuex"
 /* 组件 */
+import { ElTree } from "element-plus"
 import pageContent from "@/components/content/pageContent"
 import pageModal from "@/components/content/pageModal"
 /* 配置 */
@@ -39,6 +41,8 @@ import { searchContentConfig } from "./config/content"
 import { modalConfig } from "./config/model"
 /* hooks */
 import usePageModal from "@/hooks/usePageModal"
+/* 工具 */
+import { mapMenuToLeftKeys } from "@/utils/mapMenus"
 
 export default defineComponent({
   name: "Role",
@@ -47,7 +51,18 @@ export default defineComponent({
     pageModal
   },
   setup() {
-    const [pageModalRef, defaultInfo, onCreate, onEdit] = usePageModal()
+    /* 编辑菜单权限回显 */
+    const elTreeRef = ref<InstanceType<typeof ElTree>>()
+    const editCallback = (value: any) => {
+      const leafKeys = mapMenuToLeftKeys(value.menuList)
+      nextTick(() => {
+        elTreeRef.value?.setCheckedKeys(leafKeys, false)
+      })
+    }
+    const [pageModalRef, defaultInfo, onCreate, onEdit] = usePageModal(
+      undefined,
+      editCallback
+    )
     /* 初始化菜单 */
     const store = useStore()
     const entireMenu = computed(() => store.state.entireMenu)
@@ -70,7 +85,8 @@ export default defineComponent({
       onEdit,
       entireMenu,
       onCheckMenu,
-      othreInfo
+      othreInfo,
+      elTreeRef
     }
   }
 })

@@ -1,5 +1,5 @@
 <template>
-  <div class="hy-form">
+  <div class="chh-form">
     <div class="header">
       <slot name="header"></slot>
     </div>

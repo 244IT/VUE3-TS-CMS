@@ -1,6 +1,6 @@
 import { chhRequest } from "../../index"
-import { IDataType } from "../../type"
-import { IUserListResult, IUserListItem, IList } from "./type"
+import { IDataType } from "../../types"
+import { IUserListResult, IUserListItem, IList } from "./types"
 
 /* 获取列表 */
 export function getList(url: string, list: IList): any {
