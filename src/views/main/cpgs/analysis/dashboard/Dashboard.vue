@@ -7,18 +7,26 @@
         </chh-card>
       </el-col>
       <el-col :span="8">
-        <chh-card title="分类商品数量(饼图)"></chh-card>
+        <chh-card title="全国城市商品销量">
+          <map-echart :mapData="addressGoodsSale"></map-echart>
+        </chh-card>
       </el-col>
       <el-col :span="8">
-        <chh-card title="分类商品数量(饼图)"></chh-card>
+        <chh-card title="分类商品数量(玫瑰图)">
+          <rose-echart :roseData="categoryGoodsCount"></rose-echart>
+        </chh-card>
       </el-col>
     </el-row>
     <el-row gutter="10">
       <el-col :span="12">
-        <chh-card title="分类商品数量(饼图)"></chh-card>
+        <chh-card title="分类商品的销量">
+          <line-echart v-bind="categoryGoodsSale"></line-echart>
+        </chh-card>
       </el-col>
       <el-col :span="12">
-        <chh-card title="分类商品数量(饼图)"></chh-card>
+        <chh-card title="分类商品收藏">
+          <bar-echart v-bind="categoryGoodsFavor"></bar-echart>
+        </chh-card>
       </el-col>
     </el-row>
   </div>
@@ -30,26 +38,59 @@ import { useStore } from "@/store"
 /* 组件 */
 import ChhCard from "@/components/common/card"
 import { PieEchart } from "@/components/content/pageEchart"
+import { RoseEchart } from "@/components/content/pageEchart"
+import { LineEchart } from "@/components/content/pageEchart"
+import { BarEchart } from "@/components/content/pageEchart"
+import { MapEchart } from "@/components/content/pageEchart"
 
 export default defineComponent({
   name: "Dashboard",
   components: {
     ChhCard,
-    PieEchart
+    PieEchart,
+    RoseEchart,
+    LineEchart,
+    BarEchart,
+    MapEchart
   },
   setup() {
     console.log("dashboard setup")
     const store = useStore()
     store.dispatch("dashboardModule/getDashboardDataAction")
-
+    /* 饼图和玫瑰图数据（商品库存） */
     const categoryGoodsCount = computed(() => {
       return store.state.dashboardModule.categoryGoodsCount.map((item: any) => {
         return { name: item.name, value: item.goodsCount }
       })
     })
-    console.log(categoryGoodsCount)
+    /* 折线图数据（商品销量） */
+    const categoryGoodsSale = computed(() => {
+      const { categoryGoodsSale } = store.state.dashboardModule
+      return {
+        lineData: categoryGoodsSale.map((item: any) => item.goodsCount),
+        lineXData: categoryGoodsSale.map((item: any) => item.name)
+      }
+    })
+    /* 柱状图数据（商品收藏量） */
+    const categoryGoodsFavor = computed(() => {
+      const { categoryGoodsFavor } = store.state.dashboardModule
+      return {
+        barData: categoryGoodsFavor.map((item: any) => item.goodsFavor),
+        barXData: categoryGoodsFavor.map((item: any) => item.name)
+      }
+    })
+    /* 地图数据（地区销量） */
+    const addressGoodsSale = computed(() => {
+      return store.state.dashboardModule.addressGoodsSale.map((item: any) => ({
+        name: item.address,
+        value: item.count
+      }))
+    })
     return {
-      categoryGoodsCount
+      categoryGoodsCount,
+      categoryGoodsSale,
+      categoryGoodsFavor,
+      addressGoodsSale
     }
   }
 })

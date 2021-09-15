@@ -9,28 +9,19 @@ import * as echarts from "echarts"
 import ChhEchart from "@/components/common/echart"
 /* type */
 import { IDataType } from "../types"
-const props = defineProps<{ pieData: IDataType[] }>()
+const props = defineProps<{ lineData: IDataType[]; lineXData: IDataType[] }>()
 const option: echarts.EChartsOption = {
-  tooltip: {
-    trigger: "item"
+  xAxis: {
+    type: "category",
+    data: props.lineXData
   },
-  legend: {
-    orient: "horizontal",
-    left: "left"
+  yAxis: {
+    type: "value"
   },
   series: [
     {
-      name: "访问来源",
-      type: "pie",
-      radius: "50%",
-      data: props.pieData,
-      emphasis: {
-        itemStyle: {
-          shadowBlur: 10,
-          shadowOffsetX: 0,
-          shadowColor: "rgba(0, 0, 0, 0.5)"
-        }
-      }
+      data: props.lineData,
+      type: "line"
     }
   ]
 }
