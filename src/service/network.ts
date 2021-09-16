@@ -15,8 +15,11 @@ class CHHRequest {
   constructor(config: CHHRequestConfig) {
     // 创建axios实例
     this.instance = axios.create(config)
+
+    console.log("config.showLoading", config.showLoading)
     // 保存基本信息
     this.showLoading = config.showLoading ?? DEAFULT_LOADING
+    console.log(this.showLoading)
 
     // 实例的拦截器
     this.instance.interceptors.request.use(
@@ -32,13 +35,14 @@ class CHHRequest {
     // 全局的拦截器
     this.instance.interceptors.request.use(
       (config) => {
-        // console.log("全局请求拦截器")
+        console.log("全局请求拦截器")
+        console.log(this.showLoading)
         if (this.showLoading) {
-          this.loading = ElLoading.service({
-            lock: true,
-            text: "正在请求数据....",
-            background: "rgba(0, 0, 0, 0.5)"
-          })
+          // this.loading = ElLoading.service({
+          //   lock: true,
+          //   text: "正在请求数据....",
+          //   background: "rgba(0, 0, 0, 0.5)"
+          // })
         }
         return config
       },

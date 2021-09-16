@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, withDefaults, defineProps } from "vue"
+import { ref, onMounted, withDefaults, defineProps, watchEffect } from "vue"
 import useEchart from "../hooks/useEchart"
 import * as echarts from "echarts"
 
@@ -23,7 +23,10 @@ const props = withDefaults(
 
 onMounted(() => {
   const { setOptions } = useEchart(baseEchartRef.value!)
-  setOptions(props.option)
+
+  watchEffect(() => {
+    setOptions(props.option)
+  })
 })
 </script>
 

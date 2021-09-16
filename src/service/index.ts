@@ -5,6 +5,7 @@ import localCache from "@/utils/cache"
 const chhRequest = new CHHRequest({
   timeout: TIME_OUT,
   baseURL: BASE_URL,
+  showLoading: false,
   interceptors: {
     requestInterceptor(config) {
       // console.log("请求拦截")

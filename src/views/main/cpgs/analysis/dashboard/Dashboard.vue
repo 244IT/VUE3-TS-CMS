@@ -1,9 +1,9 @@
 <template>
   <div class="dashboard">
-    <el-row class="top-row" gutter="10">
+    <el-row class="top-row" :gutter="10">
       <el-col :span="8">
-        <chh-card title="分类商品数量(饼图)">
-          <pie-echart :pieData="categoryGoodsCount"></pie-echart>
+        <chh-card title="数据统计">
+          <pie-echart :pieData="goodsCount"></pie-echart>
         </chh-card>
       </el-col>
       <el-col :span="8">
@@ -57,6 +57,13 @@ export default defineComponent({
     console.log("dashboard setup")
     const store = useStore()
     store.dispatch("dashboardModule/getDashboardDataAction")
+    /* 饼图 */
+    const goodsCount = computed(() => {
+      return store.state.dashboardModule.goodsCount.map((item: any) => ({
+        name: item.title,
+        value: item.number1
+      }))
+    })
     /* 饼图和玫瑰图数据（商品库存） */
     const categoryGoodsCount = computed(() => {
       return store.state.dashboardModule.categoryGoodsCount.map((item: any) => {
@@ -87,6 +94,7 @@ export default defineComponent({
       }))
     })
     return {
+      goodsCount,
       categoryGoodsCount,
       categoryGoodsSale,
       categoryGoodsFavor,

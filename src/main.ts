@@ -11,8 +11,8 @@ import registerApp from "./global"
 
 const app = createApp(App)
 app.use(registerApp)
-app.use(store)
 app.use(initStore)
+app.use(store)
 app.use(router)
 
 app.mount("#app")

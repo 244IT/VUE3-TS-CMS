@@ -3,4 +3,6 @@ export interface IDashboardState {
   categoryGoodsSale: any[]
   categoryGoodsFavor: any[]
   addressGoodsSale: any[]
+  topTenGoodsSale: any[]
+  goodsCount: any[]
 }
