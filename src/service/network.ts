@@ -35,8 +35,8 @@ class CHHRequest {
     // 全局的拦截器
     this.instance.interceptors.request.use(
       (config) => {
-        console.log("全局请求拦截器")
-        console.log(this.showLoading)
+        // console.log("全局请求拦截器")
+        // console.log(this.showLoading)
         if (this.showLoading) {
           // this.loading = ElLoading.service({
           //   lock: true,

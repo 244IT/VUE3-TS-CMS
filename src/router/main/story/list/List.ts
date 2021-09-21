@@ -1,4 +1,4 @@
-const List = () => import("@/views/main/cpgs/story/list/List.vue")
+const List = () => import("@/views/main/story/list/List.vue")
 export default {
   path: "/main/story/list",
   name: "List",

@@ -5,7 +5,6 @@ import {
   getCategoryGoodsSale,
   getCategoryGoodsFavor,
   getAddressGoodsSale,
-  getTopTenGoodSale,
   getGoodsCount
 } from "@/service/main/analysis/dashboard"
 

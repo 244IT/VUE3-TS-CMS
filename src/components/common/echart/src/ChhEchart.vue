@@ -1,5 +1,9 @@
 <template>
-  <div class="base-echart" :style="{ width, height }" ref="baseEchartRef"></div>
+  <div
+    class="base-echart"
+    :style="{ width: width, height: height }"
+    ref="baseEchartRef"
+  ></div>
 </template>
 
 <script setup lang="ts">

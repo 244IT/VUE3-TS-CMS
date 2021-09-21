@@ -17,8 +17,8 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue"
 
-import NavHeader from "./cpns/navHeader"
-import NavMenu from "./cpns/navMenu"
+import NavHeader from "@/components/content/navHeader"
+import NavMenu from "@/components/content/navMenu"
 
 export default defineComponent({
   components: { NavMenu, NavHeader },

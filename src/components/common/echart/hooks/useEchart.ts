@@ -9,6 +9,11 @@ export default function useEchart(el: HTMLElement) {
     echartInstance.setOption(option)
   }
 
+  // 监听window尺寸的变化
+  window.addEventListener("resize", () => {
+    echartInstance.resize()
+  })
+
   return {
     setOptions,
     echartInstance

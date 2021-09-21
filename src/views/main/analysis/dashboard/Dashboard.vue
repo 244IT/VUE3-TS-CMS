@@ -1,5 +1,25 @@
 <template>
   <div class="dashboard">
+    <!-- 顶部数据统计 -->
+    <el-row :gutter="10">
+      <template v-for="item in goodsCount" :key="item.name">
+        <el-col :span="6">
+          <statistic-panel :panelData="item"></statistic-panel>
+        </el-col>
+      </template>
+
+      <!-- <el-col :span="6">
+        <chh-card title="商品总收藏"> 22 </chh-card>
+      </el-col>
+      <el-col :span="6">
+        <chh-card title="商品总库存"> 33 </chh-card>
+      </el-col>
+      <el-col :span="6">
+        <chh-card title="商品总销售额"> 33 </chh-card>
+      </el-col> -->
+    </el-row>
+
+    <!-- 中间图表 -->
     <el-row class="top-row" :gutter="10">
       <el-col :span="8">
         <chh-card title="数据统计">
@@ -17,7 +37,8 @@
         </chh-card>
       </el-col>
     </el-row>
-    <el-row gutter="10">
+    <!-- 底部图表 -->
+    <el-row :gutter="10">
       <el-col :span="12">
         <chh-card title="分类商品的销量">
           <line-echart v-bind="categoryGoodsSale"></line-echart>
@@ -42,6 +63,7 @@ import { RoseEchart } from "@/components/content/pageEchart"
 import { LineEchart } from "@/components/content/pageEchart"
 import { BarEchart } from "@/components/content/pageEchart"
 import { MapEchart } from "@/components/content/pageEchart"
+import StatisticPanel from "@/components/content/statisticPanel"
 
 export default defineComponent({
   name: "Dashboard",
@@ -51,7 +73,8 @@ export default defineComponent({
     RoseEchart,
     LineEchart,
     BarEchart,
-    MapEchart
+    MapEchart,
+    StatisticPanel
   },
   setup() {
     console.log("dashboard setup")
@@ -61,7 +84,8 @@ export default defineComponent({
     const goodsCount = computed(() => {
       return store.state.dashboardModule.goodsCount.map((item: any) => ({
         name: item.title,
-        value: item.number1
+        value: item.number1,
+        tips: item.tips
       }))
     })
     /* 饼图和玫瑰图数据（商品库存） */
@@ -106,6 +130,6 @@ export default defineComponent({
 
 <style scoped>
 .top-row {
-  margin-bottom: 10px;
+  margin: 10px 0;
 }
 </style>
