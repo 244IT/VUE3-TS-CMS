@@ -10,6 +10,8 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   // 1.先去加载默认所有的routes
   const allRoutes: RouteRecordRaw[] = []
   const routeFiles = require.context("../router/main", true, /\.ts/)
+  console.log("routeFiles")
+  console.log(routeFiles)
   routeFiles.keys().forEach((key) => {
     const route = require("../router/main" + key.split(".")[1])
     allRoutes.push(route.default)

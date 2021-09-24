@@ -39,13 +39,16 @@ const loginModule: Module<ILoginState, IRootState> = {
       state.userMenus = userMenus
       // 获取用户菜单
       const routes = mapMenusToRoutes(userMenus)
+      console.log("mapMenusToRoutes")
+      console.log(routes)
       // 获取用户权限
       const permissions = mapMenuToPermissions(userMenus)
       state.permissions = permissions
-
+      console.log(router)
       routes.forEach((route) => {
         router.addRoute("main", route)
       })
+      console.log(router.getRoutes())
     },
     saveActiveMene(state, menu: any) {
       state.activeMenu = menu

@@ -7,18 +7,7 @@
           <statistic-panel :panelData="item"></statistic-panel>
         </el-col>
       </template>
-
-      <!-- <el-col :span="6">
-        <chh-card title="商品总收藏"> 22 </chh-card>
-      </el-col>
-      <el-col :span="6">
-        <chh-card title="商品总库存"> 33 </chh-card>
-      </el-col>
-      <el-col :span="6">
-        <chh-card title="商品总销售额"> 33 </chh-card>
-      </el-col> -->
     </el-row>
-
     <!-- 中间图表 -->
     <el-row class="top-row" :gutter="10">
       <el-col :span="8">
